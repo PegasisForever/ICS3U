@@ -40,6 +40,7 @@ public class MarksKevin {
                 printGradeLetter('F');
             }
         }
+        closeScanner();
     }
 
     static void printMarkRange(int start, int end) {
