@@ -4,7 +4,7 @@ import java.util.Scanner;
  * Ask the user for 3 names and print them in frames
  * Kevin JianQing Liu
  */
-public class FramesKevin extends ICSBaseKevin {
+public class FramesKevin {
     public static void main(String[] args) {
         String name1 = inputString("Enter name: ");
         String name2 = inputString("Enter name: ");
@@ -25,10 +25,9 @@ public class FramesKevin extends ICSBaseKevin {
                 "*" + name + "*\n" +
                 "*".repeat(name.length() + 2) + "\n");
     }
-}
 
+    //////////////////////////////////////////////////////////////////////
 
-abstract class ICSBaseKevin {
     static Scanner scan = new Scanner(System.in);
 
     /* Print out hint and get string input from the user
