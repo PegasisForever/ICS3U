@@ -21,14 +21,26 @@ public class FramesKevin {
      * pre: the name to print
      */
     static void frameName(String name) {
-        println("*".repeat(name.length() + 2) + "\n" +
+        println(repeatChar('*', name.length() + 2) + "\n" +
                 "*" + name + "*\n" +
-                "*".repeat(name.length() + 2) + "\n");
+                repeatChar('*', name.length() + 2) + "\n");
     }
 
     //////////////////////////////////////////////////////////////////////
 
     static Scanner scan = new Scanner(System.in);
+
+    /* repeat a char for n times
+     * pre: the char to repeat and how many times
+     * post: the repeated result
+     */
+    static String repeatChar(char c, int times) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < times; i++) {
+            sb.append(c);
+        }
+        return sb.toString();
+    }
 
     /* Print out hint and get string input from the user
      * pre: a String as hint

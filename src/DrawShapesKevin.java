@@ -12,10 +12,26 @@ public class DrawShapesKevin {
         if (height < 0) throw new Exception("Height must not be negative.");
         closeScanner();
 
-        println(("*" + "%".repeat(width - 2) + "*").repeat(height));
+        println(repeat(("*" + repeatChar('%', width - 2) + "*"), height));
     }
 
     static Scanner scan = new Scanner(System.in);
+
+    static String repeatChar(char c, int times) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < times; i++) {
+            sb.append(c);
+        }
+        return sb.toString();
+    }
+
+    static String repeat(String str, int times) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < times; i++) {
+            sb.append(str);
+        }
+        return sb.toString();
+    }
 
     static int inputInt(String hint) {
         print(hint);
