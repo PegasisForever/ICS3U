@@ -16,8 +16,6 @@ public class CQSMMS {
      * ArrayList<ArrayList<ArrayList<Float>>> quizMarksForStudentsList - list of (list of (list of marks) for each student) in each class
      * String[] COMMANDS - array of all commands
      * String[] COMMAND_HELP_TEXTS -array of help text for all of the commands
-     * String ANSI_RED - control code to make following printed text red
-     * String ANSI_RESET - control code to reset following printed text color
      * int selectedClassIndex - index of selected class
      * int selectedQuizIndex - index of selected quiz
      */
@@ -78,19 +76,17 @@ public class CQSMMS {
             "Usage:\n" +
                     "   rmquiz <quiz>... - remove quiz(zes) with provided name(s) in selected class",
             "Usage:\n" +
-                    "   setmark <name> <mark>  - set mark for this student in selected quiz",
+                    "   setmark <name> <mark> - set mark for this student in selected quiz",
             "Usage:\n" +
-                    "   getmark <name>  - get mark for this student in selected quiz",
+                    "   getmark <name> - get mark for this student in selected quiz",
             "Usage:\n" +
                     "   report - generate report for all students in selected class\n" +
-                    "   report <name>  - generate report for this student in selected class",
+                    "   report <name> - generate report for this student in selected class",
             "Usage:\n" +
-                    "   save <file name>  - save all the data to this file",
+                    "   save <file name> - save all the data to this file",
             "Usage:\n" +
-                    "   load <file name>  - load all the data from this file",
+                    "   load <file name> - load all the data from this file",
     };
-    static final String ANSI_RED = "\u001B[31m";
-    static final String ANSI_RESET = "\u001B[0m";
     static int selectedClassIndex = -1;
     static int selectedQuizIndex = -1;
 
@@ -681,13 +677,13 @@ public class CQSMMS {
     }
 
     /* The set mark command
-     *     setmark <name> <mark>  - set mark for this student in selected quiz
+     *     setmark <name> <mark> - set mark for this student in selected quiz
      * pre: arguments (array of String)
      * post: Nothing
      */
     static void setMarkCommand(String[] args) {
         if (argsMatch(args, false, 's', 'f')) {
-            // setmark <name> <mark>  - set mark for this student in selected quiz
+            // setmark <name> <mark> - set mark for this student in selected quiz
 
             if (selectedClassIndex == -1 || selectedQuizIndex == -1) {
                 printlnError("No class or quiz selected");
@@ -721,13 +717,13 @@ public class CQSMMS {
     }
 
     /* The get mark command
-     *     getmark <name>  - get mark for this student in selected quiz
+     *     getmark <name> - get mark for this student in selected quiz
      * pre: arguments (array of String)
      * post: Nothing
      */
     static void getMarkCommand(String[] args) {
         if (argsMatch(args, false, 's')) {
-            //getmark <name>  - get mark for this student in selected quiz
+            //getmark <name> - get mark for this student in selected quiz
 
             if (selectedClassIndex == -1 || selectedQuizIndex == -1) {
                 printlnError("No class or quiz selected.");
@@ -762,7 +758,7 @@ public class CQSMMS {
 
     /* The report command
      *     report - generate report for all students in selected class
-     *     report <name>  - generate report for this student in selected class
+     *     report <name> - generate report for this student in selected class
      * pre: arguments (array of String)
      * post: Nothing
      */
@@ -793,7 +789,7 @@ public class CQSMMS {
         headerFormatSb.append("\n");
 
         if (argsMatch(args, false, 's')) {
-            // report <name>  - generate report for this student in selected class
+            // report <name> - generate report for this student in selected class
 
             if (selectedClassIndex == -1) {
                 printlnError("No class selected.");
@@ -857,13 +853,13 @@ public class CQSMMS {
     }
 
     /* The save command
-     *     save <file name>  - save all the data to this file
+     *     save <file name> - save all the data to this file
      * pre: arguments (array of String)
      * post: Nothing
      */
     static void saveCommand(String[] args) {
         if (argsMatch(args, false, 's')) {
-            // save <file name>  - save all the data to this file
+            // save <file name> - save all the data to this file
 
             /* Variable Table
              * File file - the file where the data is going to be saved at
@@ -953,13 +949,13 @@ public class CQSMMS {
     }
 
     /* The load command
-     *     load <file name>  - load all the data from this file
+     *     load <file name> - load all the data from this file
      * pre: arguments (array of String)
      * post: Nothing
      */
     static void loadCommand(String[] args) {
         if (argsMatch(args, false, 's')) {
-            // load <file name>  - load all the data from this file
+            // load <file name> - load all the data from this file
 
             /* Variable Table
              * File file - the file where the data is going to be read from
@@ -993,7 +989,8 @@ public class CQSMMS {
      * pre: String to parse
      * post: parsed arraylist
      */
-    static ArrayList parse(String str) {
+    @SuppressWarnings("unchecked")
+    static <T> ArrayList<T> parse(String str) {
         /* Variable Table
          * char[] charArray - the char array converted from the input string
          * int type - the type of this array list
@@ -1004,7 +1001,7 @@ public class CQSMMS {
         // the second char in the string is the type int, -48 converts number in char to int
         int type = charArray[1] - 48;
 
-        ArrayList result = new ArrayList();
+        ArrayList<T> result = new ArrayList<>();
         switch (type) {
             case 0: // empty list
                 break;
@@ -1025,7 +1022,7 @@ public class CQSMMS {
                         literal = !literal;
                     } else if (!literal && c == ',') {
                         // a comma not in string literal divides strings
-                        result.add(buffer.toString());
+                        result.add((T) buffer.toString());
                         buffer.setLength(0);
                     } else {
                         buffer.append(c);
@@ -1042,7 +1039,7 @@ public class CQSMMS {
                         if (bufferStr.equals("null")) {
                             result.add(null);
                         } else {
-                            result.add(Float.parseFloat(bufferStr));
+                            result.add((T) Float.valueOf(Float.parseFloat(bufferStr)));
                         }
                         buffer.setLength(0);
                     } else {
@@ -1061,7 +1058,7 @@ public class CQSMMS {
                         // when left-right brackets are balanced, char ',' is not in
                         // string literal or escape, it separates two lists
                         // recursive call
-                        result.add(parse(buffer.toString()));
+                        result.add((T) parse(buffer.toString()));
                         buffer.setLength(0);
                     } else {
                         buffer.append(c);
@@ -1143,7 +1140,7 @@ public class CQSMMS {
      * post: nothing
      */
     static void printlnError(Object obj) {
-        println(ANSI_RED + obj + ANSI_RESET);
+        System.err.println(obj);
     }
 
     /* Print out an object
