@@ -431,19 +431,18 @@ public class CQSMMS {
      * post: Nothing
      */
     static void addStudentCommand(String[] args) {
+        if (selectedClassIndex == -1) {
+            printlnError("No class selected.");
+            return;
+        }
+
         if (argsMatch(args, true, 's')) {
             //addstudent <student>... - add student(s) with provided name(s) in selected class
-
-            if (selectedClassIndex == -1) {
-                printlnError("No class selected.");
-                return;
-            }
 
             /* Variable Table
              * ArrayList<String> students - student list in current selected class
              * ArrayList<ArrayList<Float>> quizMarksForStudents - list of (list of marks) for each student in current selected class
              */
-
             ArrayList<String> students = studentLists.get(selectedClassIndex);
             ArrayList<ArrayList<Float>> quizMarksForStudents = quizMarksForStudentsList.get(selectedClassIndex);
             for (int i = 1; i < args.length; i++) {
@@ -476,19 +475,18 @@ public class CQSMMS {
      * post: Nothing
      */
     static void removeStudentCommand(String[] args) {
+        if (selectedClassIndex == -1) {
+            printlnError("No class selected.");
+            return;
+        }
+
         if (argsMatch(args, true, 's')) {
             // rmstudent <student>... - remove class(es) with provided name(s) in selected class
-
-            if (selectedClassIndex == -1) {
-                printlnError("No class selected.");
-                return;
-            }
 
             /* Variable Table
              * ArrayList<String> students - student list in current selected class
              * ArrayList<ArrayList<Float>> quizMarksForStudents - list of (list of marks) for each student in current selected class
              */
-
             ArrayList<String> students = studentLists.get(selectedClassIndex);
             ArrayList<ArrayList<Float>> quizMarksForStudents = quizMarksForStudentsList.get(selectedClassIndex);
             for (int i = 1; i < args.length; i++) {
@@ -514,14 +512,13 @@ public class CQSMMS {
      * post: Nothing
      */
     static void listStudentCommand(String[] args) {
+        if (selectedClassIndex == -1) {
+            printlnError("No class selected.");
+            return;
+        }
+
         if (argsMatch(args, false)) {
             //  lsstudent - list all added students in selected class
-
-            if (selectedClassIndex == -1) {
-                printlnError("No class selected.");
-                return;
-            }
-
             for (String studentName : studentLists.get(selectedClassIndex)) {
                 println(studentName);
             }
@@ -537,19 +534,18 @@ public class CQSMMS {
      * post: Nothing
      */
     static void addQuizCommand(String[] args) {
+        if (selectedClassIndex == -1) {
+            printlnError("No class selected.");
+            return;
+        }
+
         if (argsMatch(args, true, 's')) {
             // addquiz <quiz>... - add quiz(zes) with provided name(s) in selected class
-
-            if (selectedClassIndex == -1) {
-                printlnError("No class selected.");
-                return;
-            }
 
             /* Variable Table
              * ArrayList<String> quizzes - quiz list in current selected class
              * ArrayList<ArrayList<Float>> quizMarksForStudents - list of (list of marks) for each student in current selected class
              */
-
             ArrayList<String> quizzes = quizLists.get(selectedClassIndex);
             ArrayList<ArrayList<Float>> quizMarksForStudents = quizMarksForStudentsList.get(selectedClassIndex);
             for (int i = 1; i < args.length; i++) {
@@ -578,20 +574,19 @@ public class CQSMMS {
      * post: Nothing
      */
     static void removeQuizCommand(String[] args) {
+        if (selectedClassIndex == -1) {
+            printlnError("No class selected.");
+            return;
+        }
+
         if (argsMatch(args, true, 's')) {
             // rmquiz <quiz>... - remove quiz(zes) with provided name(s) in selected class
-
-            if (selectedClassIndex == -1) {
-                printlnError("No class selected.");
-                return;
-            }
 
             /* Variable Table
              * ArrayList<String> quizzes - quiz list in current selected class
              * ArrayList<ArrayList<Float>> quizMarksForStudents - list of (list of marks) for each student in current selected class
              * String selectedQuizName - save current selected quiz name because remove quizzes may change this index
              */
-
             ArrayList<String> quizzes = quizLists.get(selectedClassIndex);
             ArrayList<ArrayList<Float>> quizMarksForStudents = quizMarksForStudentsList.get(selectedClassIndex);
             String selectedQuizName = selectedQuizIndex == -1 ? null : quizzes.get(selectedQuizIndex);
@@ -623,13 +618,13 @@ public class CQSMMS {
      * post: Nothing
      */
     static void listQuizCommand(String[] args) {
+        if (selectedClassIndex == -1) {
+            printlnError("No class selected.");
+            return;
+        }
+
         if (argsMatch(args, false)) {
             // lsquiz - list all added quizzes in selected class
-
-            if (selectedClassIndex == -1) {
-                printlnError("No class selected.");
-                return;
-            }
 
             for (String quizName : quizLists.get(selectedClassIndex)) {
                 println(quizName);
@@ -647,23 +642,16 @@ public class CQSMMS {
      * post: Nothing
      */
     static void selectQuizCommand(String[] args) {
+        if (selectedClassIndex == -1) {
+            printlnError("No class selected.");
+            return;
+        }
+
         if (argsMatch(args, false)) {
             // selectquiz - deselects the current quiz
-
-            if (selectedClassIndex == -1) {
-                printlnError("No class selected.");
-                return;
-            }
-
             selectedQuizIndex = -1;
         } else if (argsMatch(args, false, 's')) {
             // selectquiz <quiz> - selects this quiz in selected class
-
-            if (selectedClassIndex == -1) {
-                printlnError("No class selected.");
-                return;
-            }
-
             int quizIndex = quizLists.get(selectedClassIndex).indexOf(args[1]);
             if (quizIndex == -1) {
                 printlnError("No quiz named \"" + args[1] + "\".");
@@ -682,13 +670,13 @@ public class CQSMMS {
      * post: Nothing
      */
     static void setMarkCommand(String[] args) {
+        if (selectedClassIndex == -1 || selectedQuizIndex == -1) {
+            printlnError("No class or quiz selected");
+            return;
+        }
+
         if (argsMatch(args, false, 's', 'f')) {
             // setmark <name> <mark> - set mark for this student in selected quiz
-
-            if (selectedClassIndex == -1 || selectedQuizIndex == -1) {
-                printlnError("No class or quiz selected");
-                return;
-            }
 
             /* Variable Table
              * String studentName - name of the student that set the mark
@@ -696,7 +684,6 @@ public class CQSMMS {
              * int studentIndex - the index of the student in the student list in current selected class
              * ArrayList<ArrayList<Float>> quizMarksForStudents - list of (list of marks) for each student in current selected class
              */
-
             String studentName = args[1];
             float mark = Float.parseFloat(args[2]);
 
@@ -722,13 +709,13 @@ public class CQSMMS {
      * post: Nothing
      */
     static void getMarkCommand(String[] args) {
+        if (selectedClassIndex == -1 || selectedQuizIndex == -1) {
+            printlnError("No class or quiz selected.");
+            return;
+        }
+
         if (argsMatch(args, false, 's')) {
             //getmark <name> - get mark for this student in selected quiz
-
-            if (selectedClassIndex == -1 || selectedQuizIndex == -1) {
-                printlnError("No class or quiz selected.");
-                return;
-            }
 
             /* Variable Table
              * String studentName - name of the student that get the mark
@@ -772,6 +759,11 @@ public class CQSMMS {
          * Object[] formatArgs - object array full of strings that is going to passed into the format method
          */
 
+        if (selectedClassIndex == -1) {
+            printlnError("No class selected.");
+            return;
+        }
+
         ArrayList<String> quizzes = quizLists.get(selectedClassIndex);
         ArrayList<String> students = studentLists.get(selectedClassIndex);
         if (quizzes.isEmpty() || students.isEmpty()) return;
@@ -790,11 +782,6 @@ public class CQSMMS {
 
         if (argsMatch(args, false, 's')) {
             // report <name> - generate report for this student in selected class
-
-            if (selectedClassIndex == -1) {
-                printlnError("No class selected.");
-                return;
-            }
 
             // find student's index
             String studentName = args[1];
@@ -816,11 +803,6 @@ public class CQSMMS {
             format(formatSb.toString(), formatArgs);
         } else if (argsMatch(args, false)) {
             // report - generate report for all students in selected class
-
-            if (selectedClassIndex == -1) {
-                printlnError("No class selected.");
-                return;
-            }
 
             // add name column to the base format string
             int nameColumnLength = 7;
