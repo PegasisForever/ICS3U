@@ -7,7 +7,7 @@ import java.util.*;
  * Kevin JianQing Liu
  * Class for class, quiz, student and mark management system.
  */
-public class CQSMMS {
+public class CulminatingKevin {
     /* Variable Table
      * Scanner scan - system input scanner
      * ArrayList<String> classes - list of all classes
