@@ -95,7 +95,7 @@ public class CQSMMS {
 
         mainLoop:
         while (true) {
-            // get & parse the inputed command
+            // get & parse the inputted command
             String[] input = parseCommand(inputLine(getPromoText()));
             if (input == null || input.length == 0) continue;
 
@@ -1117,7 +1117,7 @@ public class CQSMMS {
         System.out.println(obj);
     }
 
-    /* Print out an object in red and append a new line
+    /* Print out an object in stderr and append a new line
      * pre: an object to print
      * post: nothing
      */
